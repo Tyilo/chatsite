@@ -35,9 +35,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event['message']
+        # We don't want to send "type" to the client
+        del event['type']
 
         # Send message to WebSocket
-        await self.send_json({
-            'message': message
-        })
+        await self.send_json(event)
